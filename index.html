@@ -26,14 +26,11 @@
             border-radius: 10px;
         }
         .disk {
-            width: 80px;
             height: 30px;
-            margin: 5px;
             background-color: #ffcc00;
             border-radius: 5px;
             cursor: pointer;
             position: absolute;
-            bottom: 0;
             text-align: center;
             line-height: 30px;
         }
@@ -72,7 +69,9 @@
         function resetGame() {
             pegs.forEach(peg => peg.innerHTML = '');  // 모든 기둥 비우기
             for (let i = 3; i > 0; i--) {
-                pegs[0].appendChild(createDisk(i));
+                const disk = createDisk(i);
+                disk.style.bottom = (3 - i) * 35 + 'px'; // 각 디스크가 아래부터 쌓이도록 설정
+                pegs[0].appendChild(disk);
             }
         }
 
@@ -93,6 +92,8 @@
             const topDisk = targetPeg.lastElementChild;
 
             if (!topDisk || selectedDisk.dataset.size < topDisk.dataset.size) {
+                const numOfDisks = targetPeg.childElementCount;
+                selectedDisk.style.bottom = numOfDisks * 35 + 'px'; // 새로운 위치에 디스크 배치
                 targetPeg.appendChild(selectedDisk);
             }
         }
